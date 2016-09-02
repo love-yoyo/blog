@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Will&#39;s blog">
+    <title>web开发神器——browser-sync(1) - Will&#39;s blog</title>
+    <meta name="author" content="Will">
+    
+    
+    
+    <meta name="description" content="作为一名前端狗，我们的日常工作除了撸出一手新鲜的代码，剩下的时间就是和各式浏览器，各种手机PK（兼容性调试）。接下来就是无休止的Ctrl+S，F5，而且每次都要编辑器浏览器来回切换。据不完全统计，前端每次切换屏幕耗时0.5s，每次点击F5耗时0.5s，平均每天需切换3600次，等于3600s，等于60分，等于1小时，Ctrl，Tab，F5键每天被点击N次（以上数字纯属虾扯蛋）。为了防止键盘被破坏，">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="web开发神器——browser-sync(1)">
+<meta property="og:url" content="http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/index.html">
+<meta property="og:site_name" content="Will's blog">
+<meta property="og:description" content="作为一名前端狗，我们的日常工作除了撸出一手新鲜的代码，剩下的时间就是和各式浏览器，各种手机PK（兼容性调试）。接下来就是无休止的Ctrl+S，F5，而且每次都要编辑器浏览器来回切换。据不完全统计，前端每次切换屏幕耗时0.5s，每次点击F5耗时0.5s，平均每天需切换3600次，等于3600s，等于60分，等于1小时，Ctrl，Tab，F5键每天被点击N次（以上数字纯属虾扯蛋）。为了防止键盘被破坏，">
+<meta property="og:updated_time" content="2016-09-02T01:17:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web开发神器——browser-sync(1)">
+<meta name="twitter:description" content="作为一名前端狗，我们的日常工作除了撸出一手新鲜的代码，剩下的时间就是和各式浏览器，各种手机PK（兼容性调试）。接下来就是无休止的Ctrl+S，F5，而且每次都要编辑器浏览器来回切换。据不完全统计，前端每次切换屏幕耗时0.5s，每次点击F5耗时0.5s，平均每天需切换3600次，等于3600s，等于60分，等于1小时，Ctrl，Tab，F5键每天被点击N次（以上数字纯属虾扯蛋）。为了防止键盘被破坏，">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://love-yoyo.github.io/blog/assets/images/author.JPG"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/blog/assets/css/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/jquery.fancybox.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/jquery.fancybox-thumbs.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/tranquilpeak.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/blog/ ">Will&#39;s blog</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/blog/#about">
+        
+        
+            <img class="header-picture" src="/blog/assets/images/author.JPG"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/blog/assets/images/author.JPG"/>
+            </a>
+            <span class="sidebar-profile-name">Will</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/blog/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="http://love-yoyo.github.io/blog/"
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            web开发神器——browser-sync(1)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Aug 31 2016 08:37:15 GMT+0800">
+	
+		    8月 31, 2016
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/blog/categories/前端/">前端</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>作为一名前端狗，我们的日常工作除了撸出一手新鲜的代码，剩下的时间就是和各式浏览器，各种手机PK（兼容性调试）。接下来就是无休止的<code>Ctrl+S</code>，<code>F5</code>，而且每次都要编辑器浏览器来回切换。据不完全统计，前端每次切换屏幕耗时0.5s，每次点击<code>F5</code>耗时0.5s，平均每天需切换3600次，等于3600s，等于60分，等于1小时，<code>Ctrl</code>，<code>Tab</code>，<code>F5</code>键每天被点击N次（以上数字纯属虾扯蛋）。为了防止键盘被破坏，为了追求极客之速度，为了，，，停。。。此处为广告时间。接下来就为大家介绍一款神器————<a href="https://www.browsersync.io" target="_blank" rel="external">browsersync</a>。</p>
+<a id="more"></a>
+<p>browsersync是类似于livereload的东东，简单的说就是它可以帮你本地启动一个静态文件服务器，当你改动某个文件，点击<code>Ctrl+S</code>，接下来浏览器能够自动刷新并显示你改动后的效果。这样你就不用点击<code>F5</code>了，有人说这有什么厉害的，只是自动刷新而已，还得切换屏幕，同样是浪费时间。但如果你有外接屏，这时，你会发现，所改及所得，这速度杠杠的。但如果你有两块屏（有钱淫），这时你会发现改完之后两块屏同时刷新了。但如果你有三块屏，或者你有N块屏（想想而已）。N块屏是很少有了，但是有了它，你可以在一块大的显示器上显示<code>IE</code>，<code>Chrome</code>，<code>Firefox</code>等浏览器的窗口。这时你可以看到各个浏览器的显示情况，当你改了文件时，每个浏览器都可以自动刷新。同样对于移动应用来说，你可以将你的页面投射到多个移动终端上。怎么样，这个是不是很酷炫。如果说这个还是不够装13的话，那就要介绍另一个功能，当你用鼠标滚动你的网页时（你的网页长度超过你的浏览器窗口），你会发现，其它的浏览器也会滚动到相应的页面。这，，，牛13。（看到这，大家是不是觉得它可以作为一个遥控？）。除此之外，它还有其他一些炫酷功能会在后续博客更新。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>作为前端利器，安装和使用均依赖于<a href="https://nodejs.org/en/" target="_blank" rel="external">nodejs</a>。<code>npm install -g browser-sync</code>全局安装<code>browser-sync</code>。mac用户可能需要加sudo，即<code>sudo npm install -g browser-sync</code>。</p>
+<p>安装完成后控制台输入<code>browser-sync -h</code>，可查看该模块是否安装。同时介绍一个小技巧（Linux大神略过），对于命令行来说，加<code>-v</code>一般表示查看版本号，<code>-h</code>表示查看该命令的帮助信息，一般会打印出它所有的参数及其介绍。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>比如我创建了一个<code>hello</code>工程，</p>
+<pre><code>|—— hello
+|   |—— img/
+|   |—— css/
+|   |—— js/
+|   |—— main.html
+</code></pre><p>依次输入如下命令：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> hello</span><br><span class="line">browser-<span class="keyword">sync</span> start --server --<span class="keyword">files</span> <span class="string">"**/*.*"</span></span><br></pre></td></tr></table></figure>
+<p>这时浏览器会自动打开网页<code>http://localhost:3000</code>，你可以访问hello目录下的<code>main.html</code>等静态文件。当然，这个是最基本的一个实现，接下来我们可以通过添加一系列的参数去实现不同的效果。</p>
+<p>输入<code>browser-sync -h</code>，即可显示出下述帮助命令（部分注释中文翻译了下）。</p>
+<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">使用:</span><br><span class="line">  -<span class="ruby">--------</span><br><span class="line"></span></span><br><span class="line">      $ browser-sync &lt;command&gt; [options]</span><br><span class="line"></span><br><span class="line">  命令:</span><br><span class="line">  -<span class="ruby">--------</span><br><span class="line"></span></span><br><span class="line">      init    创建一个config配置文件</span><br><span class="line">      start   开始一个browser-sync应用</span><br><span class="line">      reload  发送一个reload事件给http请求</span><br><span class="line"></span><br><span class="line">  `start` Options:</span><br><span class="line">  -<span class="ruby">-------</span><br><span class="line"></span></span><br><span class="line">      -<span class="ruby">-help                   显示帮助信息</span><br><span class="line"></span>      -<span class="ruby">-version                显示版本号</span><br><span class="line"></span>      -<span class="ruby">-browser                选择哪个浏览器自动打开（可输入浏览器应用地址，不加选择默认浏览器打开）</span><br><span class="line"></span>      -<span class="ruby">-files                  监听的文件（可用*代替，**<span class="regexp">/*.*表示工程下的任一文件）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-server                 启动一个本地server，（使用browser-sync所在目录作为根目录）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-index                  指定某个文件作为索引页（比如指定main.html，浏览器打开http:/</span><span class="regexp">/localhost:3000会显示main.html内容，注意和directory参数互斥）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-extensions             指定文件扩展名回退</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-startPath              指定打开浏览器的开始路径（比如--startPath='come'，浏览器打开就会显示http:/</span><span class="regexp">/localhost:3000/come</span>）</span><br><span class="line"></span>      -<span class="ruby">-https                  启用<span class="constant">SSL</span></span><br><span class="line"></span>      -<span class="ruby">-directory              是否显示当前路径下的目录列表</span><br><span class="line"></span>      -<span class="ruby">-proxy                  代理到一个已存在的server</span><br><span class="line"></span>      -<span class="ruby">-ws                     只在代理模式下 - 允许websocket代理</span><br><span class="line"></span>      -<span class="ruby">-xip                    允许配置一个域到主机后（例如：<span class="symbol">http:</span>/<span class="regexp">/192.168.0.123.xip.io:3000）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-tunnel                 允许使用一个公共地址（允许后会把本地服务映射到公网地址，可通过公网访问）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-open                   自动打开时选用哪种URL(参数可选：local, external or tunnel)</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-config                 指定一个bs-config.js配置文件的路径（配置文件名可自选）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-host                   指定一个host名</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-logLevel               设置打印的log的level (silent, info or debug)</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-port                   指定一个端口（默认会扫描你所有端口，从3000开始）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-reload-delay           当文件改变时，http应用延时多久（单位：毫秒）reload</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-reload-debounce        限制在浏览器中的频率：刷新事件可以被发射到连接的客户机</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-ui-port                UI界面的端口，默认在port端口上加1（UI界面是browser-sync的控制台）</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-notify              禁止在浏览器中通知元素</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-open                不要打开一个新的浏览器窗口</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-online              强制在离线状态下使用</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-ui                  不启动UI界面</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-ghost-mode          当在一个设备中滚动时，不镜像到其他设备</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-inject-changes      每个文件改变时都触发reload</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-no-reload-on-restart   重启时不在所有浏览器reload</span><br><span class="line"></span></span></span><br><span class="line">  `reload` Options:</span><br><span class="line">  -<span class="ruby"><span class="regexp">-------</span><br><span class="line"></span></span></span><br><span class="line">      -<span class="ruby"><span class="regexp">-files   reload的文件路径</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-port    端口号为port的实例</span><br><span class="line"></span></span>      -<span class="ruby"><span class="regexp">-url     提供完成路径运行browser-sync实例</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="部分常用参数的示例"><a href="#部分常用参数的示例" class="headerlink" title="部分常用参数的示例"></a>部分常用参数的示例</h4><h6 id="监听文件"><a href="#监听文件" class="headerlink" title="监听文件"></a>监听文件</h6><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">单个文件(监听main.js的改动)</span><br><span class="line">browser-<span class="keyword">sync</span> start --server --<span class="keyword">files</span> <span class="string">'js/main.js'</span></span><br><span class="line"></span><br><span class="line">一类文件（监听js目录下所有以js结尾的文件改动）</span><br><span class="line">browser-<span class="keyword">sync</span> start --server --<span class="keyword">files</span> <span class="string">'js/*.js'</span></span><br><span class="line"></span><br><span class="line">多种文件（监听.js，.css，.html文件改动）</span><br><span class="line">browser-<span class="keyword">sync</span> start --server --<span class="keyword">files</span> <span class="string">'js/*.js,css/*.css,*.html'</span></span><br></pre></td></tr></table></figure>
+<h6 id="改变服务器的映射目录"><a href="#改变服务器的映射目录" class="headerlink" title="改变服务器的映射目录"></a>改变服务器的映射目录</h6><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">映射目录为单个目录（只能访问js目录下的文件）</span><br><span class="line">browser-<span class="keyword">sync</span> start --server js --<span class="keyword">files</span> <span class="string">'*.js'</span></span><br><span class="line"></span><br><span class="line">映射目录为多个目录（只能访问js和css下的文件）</span><br><span class="line">browser-<span class="keyword">sync</span> start --server js --server css --<span class="keyword">files</span> <span class="string">"**/*.*"</span></span><br></pre></td></tr></table></figure>
+<h6 id="显示文件列表"><a href="#显示文件列表" class="headerlink" title="显示文件列表"></a>显示文件列表</h6><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">显示文件列表（显示跟目录下的所有文件列表）</span><br><span class="line">browser-sync start --<span class="keyword">server</span> --directory <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h6 id="公网映射"><a href="#公网映射" class="headerlink" title="公网映射"></a>公网映射</h6><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">本地应用映射到公网（映射到公网<span class="keyword">http</span>://xxx.localtunnel.me）</span><br><span class="line">browser-sync <span class="built_in">start</span> <span class="comment">--server --tunnel</span></span><br><span class="line"></span><br><span class="line">指定特定的二级域名（映射到公网<span class="keyword">http</span>://hello.localtunnel.me）</span><br><span class="line">browser-sync <span class="built_in">start</span> <span class="comment">--server --tunnel hello</span></span><br></pre></td></tr></table></figure>
+<h6 id="浏览器打开方式"><a href="#浏览器打开方式" class="headerlink" title="浏览器打开方式"></a>浏览器打开方式</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">打开本地链接(浏览器打开时显示：http://localhost:3000)</span><br><span class="line">browser-sync <span class="operator"><span class="keyword">start</span> <span class="comment">--server --open local</span></span><br><span class="line"></span><br><span class="line">打开<span class="keyword">external</span>链接，为内网ip(浏览器打开时显示：<span class="keyword">http</span>://<span class="number">192.168</span>.xx.xxx:<span class="number">3000</span>)</span><br><span class="line">browser-<span class="keyword">sync</span> <span class="keyword">start</span> <span class="comment">--server --open local</span></span><br><span class="line"></span><br><span class="line">打开<span class="keyword">external</span>链接，为公网地址(浏览器打开时显示：<span class="keyword">http</span>://xxx.localtunnel.me)</span><br><span class="line">browser-<span class="keyword">sync</span> <span class="keyword">start</span> <span class="comment">--server --tunnel --open tunnel</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>如果嫌弃命令行需输入太多参数，可选择通过读取配置文件的方式</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser-sync <span class="built_in">start</span> --config <span class="built_in">path</span>/to/config.js</span><br></pre></td></tr></table></figure>
+<p>但是参数那么多，我怎么知道怎么配置文件怎么写？不用担心，browser-sync已为你准备好一切</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> hello</span><br><span class="line">browser-<span class="keyword">sync</span> init</span><br></pre></td></tr></table></figure>
+<p>这时你可以看见<code>hello</code>目录下自动生成一个<code>bs-config.js</code>文件，并生成默认配置内容</p>
+<pre><code>|—— hello
+|   |—— img/
+|   |—— css/
+|   |—— js/
+|   |—— bs-config.js
+|   |—— main.html
+</code></pre><p><code>bs-config.js</code>内容如下:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span><br><span class="line"> |--------------------------------------------------------------------------</span><br><span class="line"> | Browser-sync config file</span><br><span class="line"> |--------------------------------------------------------------------------</span><br><span class="line"> |</span><br><span class="line"> | For up-to-date information about the options:</span><br><span class="line"> |   http://www.browsersync.io/docs/options/</span><br><span class="line"> |</span><br><span class="line"> | There are more options than you see here, these are just the ones that are</span><br><span class="line"> | set internally. See the website for more info.</span><br><span class="line"> |</span><br><span class="line"> |</span><br><span class="line"> */</span></span><br><span class="line"><span class="module"><span class="keyword">module</span>.exports = </span>&#123;</span><br><span class="line">    <span class="string">"ui"</span>: &#123;</span><br><span class="line">        <span class="string">"port"</span>: <span class="number">3001</span>,</span><br><span class="line">        <span class="string">"weinre"</span>: &#123;</span><br><span class="line">            <span class="string">"port"</span>: <span class="number">8080</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"directory"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"files"</span>: [<span class="string">'js'</span>,<span class="string">'css'</span>],</span><br><span class="line">    <span class="string">"watchOptions"</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">"server"</span>: [<span class="string">'js'</span>,<span class="string">'css'</span>],</span><br><span class="line">    <span class="string">"proxy"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"port"</span>: <span class="number">3000</span>,</span><br><span class="line">    <span class="string">"middleware"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"serveStatic"</span>: [],</span><br><span class="line">    <span class="string">"ghostMode"</span>: &#123;</span><br><span class="line">        <span class="string">"clicks"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"scroll"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">"forms"</span>: &#123;</span><br><span class="line">            <span class="string">"submit"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"inputs"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"toggles"</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"logLevel"</span>: <span class="string">"debug"</span>,</span><br><span class="line">    <span class="string">"logPrefix"</span>: <span class="string">"BS"</span>,</span><br><span class="line">    <span class="string">"logConnections"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"logFileChanges"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"logSnippet"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"rewriteRules"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"open"</span>: <span class="string">"local"</span>,</span><br><span class="line">    <span class="string">"browser"</span>: <span class="string">"default"</span>,</span><br><span class="line">    <span class="string">"xip"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"hostnameSuffix"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"reloadOnRestart"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"notify"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"scrollProportionally"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"scrollThrottle"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"scrollRestoreTechnique"</span>: <span class="string">"window.name"</span>,</span><br><span class="line">    <span class="string">"scrollElements"</span>: [],</span><br><span class="line">    <span class="string">"scrollElementMapping"</span>: [],</span><br><span class="line">    <span class="string">"reloadDelay"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"reloadDebounce"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"plugins"</span>: [],</span><br><span class="line">    <span class="string">"injectChanges"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"startPath"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="string">"minify"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"host"</span>: <span class="literal">null</span>,</span><br><span class="line">    <span class="string">"codeSync"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"timestamps"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"clientEvents"</span>: [</span><br><span class="line">        <span class="string">"scroll"</span>,</span><br><span class="line">        <span class="string">"scroll:element"</span>,</span><br><span class="line">        <span class="string">"input:text"</span>,</span><br><span class="line">        <span class="string">"input:toggles"</span>,</span><br><span class="line">        <span class="string">"form:submit"</span>,</span><br><span class="line">        <span class="string">"form:reset"</span>,</span><br><span class="line">        <span class="string">"click"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"socket"</span>: &#123;</span><br><span class="line">        <span class="string">"socketIoOptions"</span>: &#123;</span><br><span class="line">            <span class="string">"log"</span>: <span class="literal">true</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"socketIoClientConfig"</span>: &#123;</span><br><span class="line">            <span class="string">"reconnectionAttempts"</span>: <span class="number">50</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"path"</span>: <span class="string">"/browser-sync/socket.io"</span>,</span><br><span class="line">        <span class="string">"clientPath"</span>: <span class="string">"/browser-sync"</span>,</span><br><span class="line">        <span class="string">"namespace"</span>: <span class="string">"/browser-sync"</span>,</span><br><span class="line">        <span class="string">"clients"</span>: &#123;</span><br><span class="line">            <span class="string">"heartbeatTimeout"</span>: <span class="number">5000</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"tagNames"</span>: &#123;</span><br><span class="line">        <span class="string">"less"</span>: <span class="string">"link"</span>,</span><br><span class="line">        <span class="string">"scss"</span>: <span class="string">"link"</span>,</span><br><span class="line">        <span class="string">"css"</span>: <span class="string">"link"</span>,</span><br><span class="line">        <span class="string">"jpg"</span>: <span class="string">"img"</span>,</span><br><span class="line">        <span class="string">"jpeg"</span>: <span class="string">"img"</span>,</span><br><span class="line">        <span class="string">"png"</span>: <span class="string">"img"</span>,</span><br><span class="line">        <span class="string">"svg"</span>: <span class="string">"img"</span>,</span><br><span class="line">        <span class="string">"gif"</span>: <span class="string">"img"</span>,</span><br><span class="line">        <span class="string">"js"</span>: <span class="string">"script"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中json配置部分可参考命令行参数配置</p>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>在web开发中，coding只占开发中的一小步，剩下的更多的是去做兼容性的调试。虽然只节省了一个<code>F5</code>的动作，但对开发速度却是一个质的飞跃。本文只是browsersync的冰山一角，还有更多的惊喜等着你去发现。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/blog/tags/工具/">工具</a> <a class="tag tag--primary tag--small t-link" href="/blog/tags/调试/">调试</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2016/07/24/gulp-useref使用小结/" data-tooltip="gulp-useref使用小结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Will. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2016/07/24/gulp-useref使用小结/" data-tooltip="gulp-useref使用小结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/08/31/browser-sync1/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/blog/assets/images/author.JPG"/>
+        
+            <h4 id="about-card-name">Will</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/blog/assets/js/jquery.js" type="text/javascript"></script>
+<script src="/blog/assets/js/jquery.fancybox.js" type="text/javascript"></script>
+<script src="/blog/assets/js/jquery.fancybox-thumbs.js" type="text/javascript"></script>
+<script src="/blog/assets/js/tranquilpeak.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>
