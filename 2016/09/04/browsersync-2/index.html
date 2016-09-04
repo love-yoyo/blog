@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Will&#39;s blog">
+    <title>web开发神器——browsersync(2)：gulp集成 - Will&#39;s blog</title>
+    <meta name="author" content="Will">
+    
+    
+    
+    <meta name="description" content="上一篇我们简单介绍了browsersync的基础的用法，但在实际开发中，我们常常需要使用gulp或grunt对项目中的js和css等文件进行相应的压缩，实现自动化构建。由于browsersync在调试方面具有很强的优势，所以在项目中可以考虑他们的集成。本文主要介绍gulp和browser-sync的集成。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="web开发神器——browsersync(2)：gulp集成">
+<meta property="og:url" content="http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/index.html">
+<meta property="og:site_name" content="Will's blog">
+<meta property="og:description" content="上一篇我们简单介绍了browsersync的基础的用法，但在实际开发中，我们常常需要使用gulp或grunt对项目中的js和css等文件进行相应的压缩，实现自动化构建。由于browsersync在调试方面具有很强的优势，所以在项目中可以考虑他们的集成。本文主要介绍gulp和browser-sync的集成。">
+<meta property="og:updated_time" content="2016-09-04T14:04:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web开发神器——browsersync(2)：gulp集成">
+<meta name="twitter:description" content="上一篇我们简单介绍了browsersync的基础的用法，但在实际开发中，我们常常需要使用gulp或grunt对项目中的js和css等文件进行相应的压缩，实现自动化构建。由于browsersync在调试方面具有很强的优势，所以在项目中可以考虑他们的集成。本文主要介绍gulp和browser-sync的集成。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://love-yoyo.github.io/blog/assets/images/author.JPG"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/blog/assets/css/font-awesome.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/jquery.fancybox.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/jquery.fancybox-thumbs.css" type="text/css">
+    <link rel="stylesheet" href="/blog/assets/css/tranquilpeak.css" type="text/css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/blog/ ">Will&#39;s blog</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="/blog/#about">
+        
+        
+            <img class="header-picture" src="/blog/assets/images/author.JPG"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/blog/assets/images/author.JPG"/>
+            </a>
+            <span class="sidebar-profile-name">Will</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="/blog/#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">搜索</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/blog/#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/love-yoyo" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            web开发神器——browsersync(2)：gulp集成
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sun Sep 04 2016 11:25:49 GMT+0800">
+	
+		    9月 04, 2016
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/blog/categories/前端/">前端</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>上一篇我们简单介绍了browsersync的基础的用法，但在实际开发中，我们常常需要使用<code>gulp</code>或<code>grunt</code>对项目中的js和css等文件进行相应的压缩，实现自动化构建。由于<code>browsersync</code>在调试方面具有很强的优势，所以在项目中可以考虑他们的集成。本文主要介绍<code>gulp</code>和<code>browser-sync</code>的集成。</p>
+<a id="more"></a>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>首先，安装<code>browsersync</code>和<code>gulp</code>的依赖包，并把它们添加到项目依赖中。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> browser-<span class="keyword">sync</span> gulp <span class="comment">--save-dev</span></span></span><br></pre></td></tr></table></figure>
+<p>然后，在你的<code>gulpfile.js</code>文件中添加相应的task。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> browserSync = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>).create();</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加browser-sync的task</span></span><br><span class="line">gulp.task(<span class="string">'browser-sync'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//browser-sync的初始化</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: &#123;</span><br><span class="line">            baseDir: <span class="string">"./"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面是基础的task，我们会把根目录（gulpfile所在文件目录）下面的所有文件映射到一个静态服务器中。但有时候我们项目的不会如此简单，比如我们不需要访问<code>node_modules</code>中的文件，我们只需要能够访问<code>dist</code>和<code>bower_components</code>目录中的内容等等。</p>
+<h4 id="常见配置示例"><a href="#常见配置示例" class="headerlink" title="常见配置示例"></a>常见配置示例</h4><h6 id="访问固定目录"><a href="#访问固定目录" class="headerlink" title="访问固定目录"></a>访问固定目录</h6><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(<span class="string">'browser-sync'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        <span class="comment">// 访问dist目录下文件</span></span><br><span class="line">        server: <span class="string">"dist"</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 访问dist目录下文件并且显示文件列表</span></span><br><span class="line">        <span class="comment">// server: &#123;</span></span><br><span class="line">        <span class="comment">//     baseDir: "dist",</span></span><br><span class="line">        <span class="comment">//     directory: true</span></span><br><span class="line">        <span class="comment">// &#125;,</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 多个文件目录映射</span></span><br><span class="line">        <span class="comment">// server: ["app", "dist"],</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 访问dist目录，并且初始页面为index.html</span></span><br><span class="line">        <span class="comment">// server: &#123;</span></span><br><span class="line">        <span class="comment">//     baseDir: "dist",</span></span><br><span class="line">        <span class="comment">//     index: "index.html"</span></span><br><span class="line">        <span class="comment">// &#125;,</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 版本1.2.1后支持</span></span><br><span class="line">        <span class="comment">// 页面中加载以"/bower_components"开头的文件时自动从bower_components中寻找</span></span><br><span class="line">        <span class="comment">// server: &#123;</span></span><br><span class="line">        <span class="comment">//     baseDir: "dist",</span></span><br><span class="line">        <span class="comment">//     routes: &#123;</span></span><br><span class="line">        <span class="comment">//         "/bower_components": "bower_components"</span></span><br><span class="line">        <span class="comment">//     &#125;</span></span><br><span class="line">        <span class="comment">// &#125;</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h6 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h6><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(<span class="string">'browser-sync'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: &#123;</span><br><span class="line">            baseDir: <span class="string">"./dist"</span>,</span><br><span class="line">            index: <span class="string">"main.html"</span>,</span><br><span class="line">            routes: &#123;</span><br><span class="line">                <span class="string">'/bower_components'</span>: <span class="string">'bower_components'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在一个设备上进行点击，滚动，输入操作时是否映射到其他设备(默认为true)</span></span><br><span class="line">        ghostMode: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 公网地址</span></span><br><span class="line">        tunnel: <span class="literal">true</span>, <span class="comment">// 随机选取，<span class="label">xxx.localtunnel.me</span></span></span><br><span class="line">        <span class="comment">// tunnel: 'hello', // 生成 hello.localtunnel.me</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 浏览器自动打开是显示的地址</span></span><br><span class="line">        open: <span class="string">"local"</span>, <span class="comment">// 自动打开 http://localhost:3000</span></span><br><span class="line">        <span class="comment">// open: "external", // 自动打开 http://192.168.<span class="label">xxx.xxx:3000</span></span></span><br><span class="line">        <span class="comment">// open: "tunnel", // 自动打开 http://<span class="label">xxx.localtunnel.me，需设置tunnel</span></span></span><br><span class="line">        <span class="comment">// open: false, // 不要自动在浏览器打开</span></span><br><span class="line">        <span class="comment">// open: 'ui', // 打开UI控制台</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 自动打开的浏览器，默认为default，</span></span><br><span class="line">        <span class="comment">// browser: "google chrome",</span></span><br><span class="line">        <span class="comment">// browser: ["google chrome", "firefox"], // 同时在Chrome和Firefox中打开</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 服务的端口号，默认从3000开始扫描，直到找到一个没有使用的端口号</span></span><br><span class="line">        port: <span class="number">8080</span>,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印log的级别</span></span><br><span class="line">        logLevel: <span class="string">"debug"</span>, <span class="comment">//debug级别以上的日志</span></span><br><span class="line">        <span class="comment">// logLevel: "info", //info级别以上的日志</span></span><br><span class="line">        <span class="comment">// logLevel: "silent", //不打印任何日志到控制台</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 日志前缀</span></span><br><span class="line">        logPrefix: <span class="string">"My Project"</span>, </span><br><span class="line">        <span class="comment">// [My Project] Local URL: http://localhost:3000</span></span><br><span class="line">        <span class="comment">// [My Project] Watching files....</span></span><br><span class="line">        <span class="comment">// [My Project] File changed: "index.html"</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 是否在浏览器显示通知</span></span><br><span class="line">        notify: <span class="literal">false</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="文件监听和重载"><a href="#文件监听和重载" class="headerlink" title="文件监听和重载"></a>文件监听和重载</h4><p>在我们开发调试阶段，有时会需要对文件监听，实现scss自动编译。</p>
+<h6 id="SASS-CSS-注入"><a href="#SASS-CSS-注入" class="headerlink" title="SASS + CSS 注入"></a>SASS + CSS 注入</h6><p>在browsersync中使用流，这样你可以在你任务指定的地方调用reload，同时所有的浏览器将被告知变化，因为browsersync只关注完成编译后css，请确保在<code>gulp.dest</code>之后调用<code>.stream()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp        = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> browserSync = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>).create();</span><br><span class="line"><span class="keyword">var</span> sass        = <span class="built_in">require</span>(<span class="string">'gulp-sass'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 静态服务器 + 监听 scss/html文件</span></span><br><span class="line">gulp.task(<span class="string">'serve'</span>, [<span class="string">'sass'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: <span class="string">"./app"</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    gulp.watch(<span class="string">"app/scss/*.scss"</span>, [<span class="string">'sass'</span>]);</span><br><span class="line">    gulp.watch(<span class="string">"app/*.html"</span>).on(<span class="string">'change'</span>, browserSync.reload);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译sass为css文件，并自动注入到浏览器中</span></span><br><span class="line">gulp.task(<span class="string">'sass'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">"app/scss/*.scss"</span>)</span><br><span class="line">        .pipe(sass())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">"app/css"</span>))</span><br><span class="line">        .pipe(browserSync.stream());</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'default'</span>, [<span class="string">'serve'</span>]);</span><br></pre></td></tr></table></figure>
+<h6 id="浏览器的重载"><a href="#浏览器的重载" class="headerlink" title="浏览器的重载"></a>浏览器的重载</h6><p>有时候，你可能想整个页面都重新加载（例如在处理了一堆js文件），但是你想reload事件发生在task执行完成后。这在<code>gulp 4.x.x</code>将会变的很容易，但是现在你可以按下面的做：（确保你所有tasks都<code>return</code>流，这样<code>browserSync.reload()</code>就会在正确的时候被调用）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp        = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> browserSync = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>).create();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理js文件并返回流</span></span><br><span class="line">gulp.task(<span class="string">'js'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'js/*js'</span>)</span><br><span class="line">        .pipe(browserify())</span><br><span class="line">        .pipe(uglify())</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'dist/js'</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个task以确保js任务在浏览器重载前完成</span></span><br><span class="line">gulp.task(<span class="string">'js-watch'</span>, [<span class="string">'js'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</span><br><span class="line">    browserSync.reload();</span><br><span class="line">    done();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用默认任务去加载browsersync，同时监听文件</span></span><br><span class="line">gulp.task(<span class="string">'serve'</span>, [<span class="string">'js'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从项目根目录启动服务器</span></span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: &#123;</span><br><span class="line">            baseDir: <span class="string">"./"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加browserSync.reload到任务队列中以确保所有浏览器在tasks执行完后reload</span></span><br><span class="line">    gulp.watch(<span class="string">"js/*.js"</span>, [<span class="string">'js-watch'</span>]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>本文介绍了<code>gulp</code>和<code>browsersync</code>的集成使用，基本的配置参数可参照上一篇<a href="/blog/2016/08/31/browsersync-1/">web开发神器——browsersync(1)</a>。需要注意的是sass文件重新编译为css，或是js文件合并时，我们可以通过stream的方式将改变注入到所有浏览器中。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a href="https://www.browsersync.io/docs/gulp" target="_blank" rel="external">Browsersync + Gulp.js</a></li>
+</ol>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/blog/tags/gulp/">gulp</a> <a class="tag tag--primary tag--small t-link" href="/blog/tags/工具/">工具</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2016/08/31/browsersync-1/" data-tooltip="web开发神器——browsersync(1)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2016 Will. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/blog/2016/08/31/browsersync-1/" data-tooltip="web开发神器——browsersync(1)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://love-yoyo.github.io/blog/2016/09/04/browsersync-2/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/blog/assets/images/author.JPG"/>
+        
+            <h4 id="about-card-name">Will</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/blog/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/blog/assets/js/jquery.js" type="text/javascript"></script>
+<script src="/blog/assets/js/jquery.fancybox.js" type="text/javascript"></script>
+<script src="/blog/assets/js/jquery.fancybox-thumbs.js" type="text/javascript"></script>
+<script src="/blog/assets/js/tranquilpeak.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>
