@@ -1250,5 +1250,7 @@
       var tagsFilter = new TagsFilter('#tags-archives');
       tagsFilter.run();
     }
+
+    $("img.lazy").unveil();
   });
 })(jQuery);
