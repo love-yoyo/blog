@@ -19,7 +19,13 @@
 <meta property="og:description" content="前两次博客介绍了browsersync的简单使用和与gulp的集成，我们开发时关注的可能也就这些了。但其实它还有一个很厉害的功能————控制台。其实就相当于一个后台管理页面，在这里你可以对browsersync的设置进行更改，可以查看历史记录，可以调节输出网速等等。">
 <meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
 <meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
-<meta property="og:updated_time" content="2016-09-06T15:37:54.000Z">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=">
+<meta property="og:updated_time" content="2016-09-07T15:04:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="web开发神器——browsersync(3)：控制界面使用">
 <meta name="twitter:description" content="前两次博客介绍了browsersync的简单使用和与gulp的集成，我们开发时关注的可能也就这些了。但其实它还有一个很厉害的功能————控制台。其实就相当于一个后台管理页面，在这里你可以对browsersync的设置进行更改，可以查看历史记录，可以调节输出网速等等。">
@@ -235,7 +241,7 @@ Sync Options        同步设置
 History             历史记录
 Plugins             插件
 Remote Debug        远程调试
-Network Throttle    网络节流
+Network Throttle    网络限流
 Help/About          帮助/关于
 </code></pre><p>上方功能区：</p>
 <pre><code>RELOAD ALL          所有设备重新加载
@@ -243,7 +249,62 @@ NEW TAB             新建一个访问页
 SCROLL TOP          滚动到上方
 RESET ALL           全部重置
 </code></pre><blockquote>
-<h6 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h6></blockquote>
+<h6 id="Overview-预览"><a href="#Overview-预览" class="headerlink" title="Overview(预览)"></a>Overview(预览)</h6></blockquote>
+<p><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-overview.png" alt=""></p>
+<blockquote><ul>
+<li><code>Local</code> 显示静态服务器地址</li>
+<li><code>External</code> 显示控制台页面地址</li>
+<li><code>Serving files from</code> 静态服务器的起始目录</li>
+<li><code>Current Connections</code> 当前连接的设备</li>
+</ul>
+</blockquote>
+<blockquote>
+<h6 id="Sync-Options-同步选项"><a href="#Sync-Options-同步选项" class="headerlink" title="Sync Options(同步选项)"></a>Sync Options(同步选项)</h6></blockquote>
+<p><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-sync-options.png" alt=""></p>
+<p>在这个界面你可以控制是否同步相关事件在所有连接的设备中。</p>
+<blockquote>
+<h6 id="History-历史"><a href="#History-历史" class="headerlink" title="History(历史)"></a>History(历史)</h6></blockquote>
+<p><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-history.png" alt=""></p>
+<p>历史记录界面显示你曾经打开过的路由地址</p>
+<blockquote>
+<h6 id="Plugin-插件"><a href="#Plugin-插件" class="headerlink" title="Plugin(插件)"></a>Plugin(插件)</h6></blockquote>
+<p>插件界面显示了你已经安装了的一些browsersync的插件</p>
+<blockquote>
+<h6 id="Remote-Debug-远程调试"><a href="#Remote-Debug-远程调试" class="headerlink" title="Remote Debug(远程调试)"></a>Remote Debug(远程调试)</h6></blockquote>
+<p><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-remote-debug.png" alt=""></p>
+<p>远程调试界面</p>
+<blockquote><blockquote>
+<p><strong>Remote Debugger (weinre)</strong></p>
+</blockquote>
+<p>基于<code>weinre</code>的远程调试，<code>weinre</code>是一个web端的远程调试工具，像<code>FireBug</code>一样。众所周知，移动端调试不像PC端一样，每个浏览器都有自己的开发者工具（调试工具）。移动端的调试我们只能借助于外部工具，比如<code>weinre</code>，单独使用<code>weinre</code>时，我们需要下载并安装它，同时在我们需要调试的页面中引入一段js。就我来说，我觉得第一比较麻烦，第二对代码的侵入性比较强，之前不太喜欢用。但现在有个<code>browsersync</code>就不一样了，打开调试开关（为了方便，上面截图中已打开），之后在你每次请求去加载静态服务器中资源的时候，它会默认把weinre相关的js插入到界面中。点击<code>Access remote debugger (opens in a new tab)</code>之后会显示如下图：<br><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-debug-result.png" alt=""><br>这便是大家熟悉的<code>weinre</code>的控制界面，点击页面中的<code>target</code>：</p>
+<ol>
+<li><code>Elements</code>可看原代码</li>
+<li><code>Resources</code>可看相关存储资源(Databases, Local Storage, Session Storage)</li>
+<li><code>Network</code>查看相关网络请求</li>
+<li><code>Timeline</code>查看程序耗时</li>
+<li><code>Concole</code>查看控制台日志</li>
+</ol>
+<p><strong>移动端(Hybird)均可此进行调试（电脑，手机需在同一网段下），但有时因网络或手机原因显示不出target（注意）</strong></p>
+<blockquote>
+<p><strong>CSS Outlining</strong></p>
+</blockquote>
+<p>显示调试页面中所有元素的边框</p>
+<blockquote>
+<p><strong>CSS Depth Outlining</strong></p>
+</blockquote>
+<p>显示调试页面中所有元素的阴影</p>
+<blockquote>
+<p><strong>Overlay CSS Grid</strong></p>
+</blockquote>
+<p>添加一个格式的网格到调试页面中</p>
+</blockquote>
+<blockquote>
+<h6 id="Network-Throttle-网络限流"><a href="#Network-Throttle-网络限流" class="headerlink" title="Network Throttle(网络限流)"></a>Network Throttle(网络限流)</h6></blockquote>
+<p><img src="data:image/gif;base64,R0lGODlhAwADAIABAL6+vv///yH5BAEAAAEALAAAAAADAAMAAAIDjA9WADs=" class="lazy" data-src="img-netword.png" alt=""></p>
+<p>网络限流界面，你可以模拟多种网速，观察不同网速下你的网站运行情况</p>
+<blockquote>
+<h6 id="Help-About-帮助-关于"><a href="#Help-About-帮助-关于" class="headerlink" title="Help/About(帮助/关于)"></a>Help/About(帮助/关于)</h6></blockquote>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>browsersync作为一个工具，它不仅单独运行方便，而且可以和主流的构建工具很好的集成。同时他还有用户界面，所有的操作尽在掌握之中。它解决前端开发中有关调试的大部分问题，绝对称得上是一款良心之作。</p>
 
             
         </div>
